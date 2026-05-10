@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.lbc.shortlink.admin.common.convention.errorcode.BaseErrorCode;
 import org.lbc.shortlink.admin.common.convention.exception.AbstractException;
+import org.lbc.shortlink.admin.common.convention.exception.ClientException;
 import org.lbc.shortlink.admin.common.convention.result.Result;
 import org.lbc.shortlink.admin.common.convention.result.Results;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -26,6 +29,13 @@ import java.util.Optional;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Map<String, ClientException> INDEX_FIELD_MAP;
+
+    static {
+        INDEX_FIELD_MAP = new HashMap<>();
+        INDEX_FIELD_MAP.put("idx_unique_username", new ClientException(BaseErrorCode.USER_NAME_EXIST));
+    }
 
     /**
      * 拦截参数验证异常
@@ -61,7 +71,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Throwable.class)
     public Result<Void> defaultErrorHandler(HttpServletRequest request, Throwable throwable) {
         log.error("[{}] {} ", request.getMethod(), getUrl(request), throwable);
-        return Results.failure();
+        String message = throwable.getCause() != null ? throwable.getCause().getMessage() : throwable.getMessage();
+        return INDEX_FIELD_MAP.entrySet().stream()
+                .filter(entry -> message.contains(entry.getKey()))
+                .findFirst()
+                .map(entry -> Results.failure(entry.getValue()))
+                .orElse(Results.failure());
     }
 
     private String getUrl(HttpServletRequest request) {
