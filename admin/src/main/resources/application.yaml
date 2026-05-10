@@ -3,19 +3,11 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/link?useSSL=false&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
-    username: root
-    password: xiaoqi
-    driver-class-name: org.mariadb.jdbc.Driver
+    # ShardingSphere 对 Driver 自定义，实现分库分表等隐藏逻辑
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    # ShardingSphere 配置文件路径
+    url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
 
-    # 连接池配置（HikariCP 默认）
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 300000
-      max-lifetime: 1200000
-      connection-timeout: 20000
-      pool-name: HikariPool
   data:
     redis:
       host: 192.168.64.2
