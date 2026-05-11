@@ -4,6 +4,7 @@ public enum BaseErrorCode implements IErrorCode {
 
     // ========== 一级宏观错误码 客户端错误 ==========
     CLIENT_ERROR("A000001", "用户端错误"),
+    CLIENT_PARAM_ERROR("A000002", "用户端参数错误"),
     NAME_NULL("A0000011", "用户名不能为空"),
     PASSWORD_NULL("A0000012", "密码不能为空"),
     EMAIL_NULL("A0000013", "邮箱不能为空"),

@@ -27,6 +27,7 @@
     <hutool-all.version>5.8.20</hutool-all.version>
     <redisson.version>3.21.3</redisson.version>
     <guava.version>30.0-jre</guava.version>
+    <validation.version>4.0.6</validation.version>
   </properties>
 
   <dependencies>
@@ -114,6 +115,12 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+        <version>${validation.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

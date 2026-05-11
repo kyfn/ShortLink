@@ -1,12 +1,16 @@
 package org.lbc.shortlink.admin.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.lbc.shortlink.admin.common.convention.result.Result;
 import org.lbc.shortlink.admin.common.convention.result.Results;
+import org.lbc.shortlink.admin.dto.req.UserPasswordModifyReqDTO;
+import org.lbc.shortlink.admin.dto.req.UserPhoneModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.lbc.shortlink.admin.dto.resp.UserActualRespDTO;
 import org.lbc.shortlink.admin.dto.resp.UserRespDTO;
 import org.lbc.shortlink.admin.service.UserService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -55,6 +60,28 @@ public class UserController {
     @PostMapping("/api/slink/v1/user")
     public Result<Void> userRegister(@RequestBody UserRegisterReqDTO requestParam) {
         userService.userRegister(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * 用户修改密码
+     * @param requestParam 修改参数
+     * @return 任意
+     */
+    @PutMapping("/api/slink/v1/user/password")
+    public Result<Void> userPasswordModify(@RequestBody @Valid UserPasswordModifyReqDTO requestParam) {
+        userService.userPasswordModify(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * 用户修改手机号
+     * @param requestParam 修改参数
+     * @return 任意
+     */
+    @PutMapping("/api/slink/v1/user/phone")
+    public Result<Void> userPhoneModify(@RequestBody UserPhoneModifyReqDTO requestParam) {
+        userService.userPhoneModify(requestParam);
         return Results.success();
     }
 }

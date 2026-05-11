@@ -2,18 +2,14 @@ package org.lbc.shortlink.admin.common.enums;
 
 import org.lbc.shortlink.admin.common.convention.errorcode.IErrorCode;
 
-public enum UserErrorCodeEnums implements IErrorCode {
+public enum ServiceErrorCodeEnums implements IErrorCode {
 
-    USER_REG_ERROR("A0000100", "用户注册失败"),
-    USER_SAVE_ERROR("A0000100", "用户注册失败"),
-    USER_LOGIN_ERROR("A0000200", "用户登录失败"),
-    USER_NULL("A0000301", "用户不存在"),
-    USER_PASSWORD_ERROR("A0000302", "用户密码错误");
+    SERVICE_SQL_MODIFY_ERROR("B0000100", "修改失败");
 
     private final String code;
     private final String message;
 
-    UserErrorCodeEnums(String code, String message) {
+    ServiceErrorCodeEnums(String code, String message) {
         this.code = code;
         this.message = message;
     }
