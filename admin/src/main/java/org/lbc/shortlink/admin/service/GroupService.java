@@ -5,6 +5,8 @@ import org.lbc.shortlink.admin.dao.entity.GroupDO;
 import org.lbc.shortlink.admin.dto.req.GroupReqDTO;
 import org.lbc.shortlink.admin.dto.resp.GroupRespDTO;
 
+import java.util.List;
+
 /**
  * 短链接分组接口层
  */
@@ -16,4 +18,10 @@ public interface GroupService extends IService<GroupDO> {
      * @return 短链接分组数据
      */
     GroupRespDTO create(GroupReqDTO requestParam);
+
+    /**
+     * 查询所有短链接分组
+     * @return 分组数据集合
+     */
+    List<GroupRespDTO> getAll();
 }

@@ -5,10 +5,6 @@ import lombok.Data;
 @Data
 public class GroupRespDTO {
     /**
-     * ID
-     */
-    private Long id;
-    /**
      * 分组标识
      */
     private String gid;
@@ -21,13 +17,9 @@ public class GroupRespDTO {
      */
     private String username;
     /**
-     * 创建时间戳
+     * 排序序号
      */
-    private Long createTime;
-    /**
-     * 修改时间戳
-     */
-    private Long updateTime;
+    private Long sortOrder;
     /**
      * 删除标识 0:未删除 1：已删除
      */
