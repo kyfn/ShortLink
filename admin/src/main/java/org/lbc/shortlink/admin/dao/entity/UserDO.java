@@ -1,16 +1,17 @@
 package org.lbc.shortlink.admin.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.lbc.shortlink.admin.common.database.BaseDO;
 
 /**
  * 用户
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @TableName("t_user")
-public class UserDO {
+public class UserDO extends BaseDO {
     /**
      * ID
      */
@@ -39,19 +40,4 @@ public class UserDO {
      * 注销时间戳
      */
     private Long deleteionTime;
-    /**
-     * 创建时间戳
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private Long createTime;
-    /**
-     * 修改时间戳
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long updateTime;
-    /**
-     * 删除标识 0:未删除 1：已删除
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private Integer delFlag;
 }
