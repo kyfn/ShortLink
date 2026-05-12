@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.lbc.shortlink.admin.common.convention.result.Result;
 import org.lbc.shortlink.admin.common.convention.result.Results;
+import org.lbc.shortlink.admin.dto.req.UserLoginReqDTO;
 import org.lbc.shortlink.admin.dto.req.UserPasswordModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.UserPhoneModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.lbc.shortlink.admin.dto.resp.UserActualRespDTO;
+import org.lbc.shortlink.admin.dto.resp.UserLoginRespDTO;
 import org.lbc.shortlink.admin.dto.resp.UserRespDTO;
 import org.lbc.shortlink.admin.service.UserService;
 import org.springframework.validation.annotation.Validated;
@@ -58,8 +60,8 @@ public class UserController {
      * @return 任意
      */
     @PostMapping("/api/slink/v1/user")
-    public Result<Void> userRegister(@RequestBody UserRegisterReqDTO requestParam) {
-        userService.userRegister(requestParam);
+    public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
+        userService.register(requestParam);
         return Results.success();
     }
 
@@ -69,8 +71,8 @@ public class UserController {
      * @return 任意
      */
     @PutMapping("/api/slink/v1/user/password")
-    public Result<Void> userPasswordModify(@RequestBody @Valid UserPasswordModifyReqDTO requestParam) {
-        userService.userPasswordModify(requestParam);
+    public Result<Void> modifyPassword(@RequestBody @Valid UserPasswordModifyReqDTO requestParam) {
+        userService.modifyPassword(requestParam);
         return Results.success();
     }
 
@@ -80,8 +82,31 @@ public class UserController {
      * @return 任意
      */
     @PutMapping("/api/slink/v1/user/phone")
-    public Result<Void> userPhoneModify(@RequestBody UserPhoneModifyReqDTO requestParam) {
-        userService.userPhoneModify(requestParam);
+    public Result<Void> modifyPhone(@RequestBody UserPhoneModifyReqDTO requestParam) {
+        // TODO 参数注解校验
+        userService.modifyPhone(requestParam);
         return Results.success();
+    }
+
+    /**
+     * 用户登录
+     * @param requestParam 登录参数
+     * @return token 数据
+     */
+    @PostMapping("/api/slink/v1/user/login")
+    public Result<UserLoginRespDTO> login(@RequestBody @Valid UserLoginReqDTO requestParam) {
+        UserLoginRespDTO loginRes = userService.login(requestParam);
+        return Results.success(loginRes);
+    }
+
+    /**
+     * 检查用户是否登录
+     * @param  username 用户名
+     * @param  token 用户token
+     * @return true 登录 false 未登录
+     */
+    @GetMapping("/api/slink/v1/user/check-login")
+    public Result<Boolean> checkLogin(@RequestParam String username, @RequestParam String token) {
+        return Results.success(userService.checkLogin(username, token));
     }
 }

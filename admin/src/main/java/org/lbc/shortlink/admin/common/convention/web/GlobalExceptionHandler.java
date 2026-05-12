@@ -10,6 +10,7 @@ import org.lbc.shortlink.admin.common.convention.exception.AbstractException;
 import org.lbc.shortlink.admin.common.convention.exception.ClientException;
 import org.lbc.shortlink.admin.common.convention.result.Result;
 import org.lbc.shortlink.admin.common.convention.result.Results;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -37,6 +38,11 @@ public class GlobalExceptionHandler {
         INDEX_FIELD_MAP.put("idx_unique_username", new ClientException(BaseErrorCode.USER_NAME_EXIST));
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Result<Void> reqJsonExceptionHandler(HttpServletRequest request, HttpMessageNotReadableException ex) {
+        log.error("[{}] {} [ex] {}", request.getMethod(), getUrl(request), ex.toString());
+        return Results.failure(BaseErrorCode.CLIENT_PARAM_FORMAT_ERROR.code(), BaseErrorCode.CLIENT_PARAM_FORMAT_ERROR.message());
+    }
     /**
      * 拦截参数验证异常
      */
