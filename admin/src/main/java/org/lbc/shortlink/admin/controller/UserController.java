@@ -112,7 +112,7 @@ public class UserController {
 
     @DeleteMapping("/api/slink/v1/user/loginout")
     public Result<Void> logout(@RequestParam String username, @RequestParam String token) {
-        userService.loginout(username, token);
+        userService.logout(username, token);
         return Results.success();
     }
 }

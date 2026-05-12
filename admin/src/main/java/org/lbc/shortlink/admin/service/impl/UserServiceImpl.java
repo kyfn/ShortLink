@@ -155,7 +155,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public void loginout(String username, String token) {
+    public void logout(String username, String token) {
         Boolean isLogin = checkLogin(username, token);
         if (!isLogin) {
             throw new ClientException("用户未登录");
