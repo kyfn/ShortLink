@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.lbc.shortlink.admin.common.biz.user.UserContext;
 import org.lbc.shortlink.admin.common.constant.RedisCacheConstant;
 import org.lbc.shortlink.admin.common.convention.errorcode.BaseErrorCode;
 import org.lbc.shortlink.admin.common.convention.exception.ClientException;
@@ -99,15 +100,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public void modifyPassword(UserPasswordModifyReqDTO requestParam) {
-        // TODO 验证单是否为当前用户
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
-                .eq(UserDO::getUsername, requestParam.getUsername());
-        String oldPassword = baseMapper.selectOne(queryWrapper).getPassword();
+                .eq(UserDO::getUsername, UserContext.getUsername());
+        UserDO userDO = baseMapper.selectOne(queryWrapper);
+        if (userDO == null) {
+            throw new ClientException(UserErrorCodeEnums.USER_NULL);
+        }
+        String oldPassword =userDO.getPassword();
         if (!requestParam.getOldPassword().equals(oldPassword)) {
             throw new ClientException(UserErrorCodeEnums.USER_PASSWORD_ERROR);
         }
         LambdaUpdateWrapper<UserDO> updateWrapper = Wrappers.lambdaUpdate(UserDO.class)
-                        .eq(UserDO::getUsername, requestParam.getUsername())
+                        .eq(UserDO::getUsername, UserContext.getUsername())
                 .set(UserDO::getPassword, requestParam.getNewPassword());
         int num = baseMapper.update(BeanUtil.toBean(requestParam, UserDO.class), updateWrapper);
         if (num != 1) {
@@ -118,7 +122,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public void modifyPhone(UserPhoneModifyReqDTO requestParam) {
         LambdaUpdateWrapper<UserDO> updateWrapper = Wrappers.lambdaUpdate(UserDO.class)
-                .eq(UserDO::getUsername, requestParam.getUsername())
+                .eq(UserDO::getUsername, UserContext.getUsername())
                 .set(UserDO::getPhone, requestParam.getPhone());
         int num = baseMapper.update(BeanUtil.toBean(requestParam, UserDO.class), updateWrapper);
         if (num != 1) {
@@ -128,7 +132,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public UserLoginRespDTO login(UserLoginReqDTO requestParam) {
-        // TODO 用户名校验是否存在
         Wrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
                 .eq(UserDO::getUsername, requestParam.getUsername())
                 .eq(UserDO::getPassword, requestParam.getPassword())

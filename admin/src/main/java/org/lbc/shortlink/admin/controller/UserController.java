@@ -59,7 +59,7 @@ public class UserController {
      * @param requestParam 注册参数
      * @return 任意
      */
-    @PostMapping("/api/slink/v1/user")
+    @PostMapping("/api/slink/v1/user/register")
     public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
         userService.register(requestParam);
         return Results.success();
@@ -106,7 +106,7 @@ public class UserController {
      * @return true 登录 false 未登录
      */
     @GetMapping("/api/slink/v1/user/check-login")
-    public Result<Boolean> checkLogin(@RequestParam String username, @RequestParam String token) {
+    public Result<Boolean> checkLogin(@RequestHeader String token, @RequestHeader String username) {
         return Results.success(userService.checkLogin(username, token));
     }
 
