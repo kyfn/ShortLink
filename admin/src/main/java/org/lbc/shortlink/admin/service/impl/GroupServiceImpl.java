@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.lbc.shortlink.admin.common.biz.user.UserContext;
 import org.lbc.shortlink.admin.common.convention.exception.ClientException;
 import org.lbc.shortlink.admin.dao.entity.GroupDO;
 import org.lbc.shortlink.admin.dao.mapper.GroupMapper;
@@ -26,7 +27,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     public GroupRespDTO create(GroupReqDTO requestParam) {
         GroupDO group = GroupDO.builder()
                 .name(requestParam.getName())
-                .username(requestParam.getUsername())
+                .username(UserContext.getUsername())
                 .gid(RandomGenerator.generate())
                 .sortOrder(0L)
                 .build();
@@ -40,8 +41,10 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     @Override
     public List<GroupRespDTO> getAll() {
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
+                .eq(GroupDO::getUsername, UserContext.getUsername())
                 .eq(GroupDO::getDelFlag, 0)
-                .orderByDesc(GroupDO::getSortOrder, GroupDO::getUpdateTime);
+                .orderByDesc(GroupDO::getSortOrder)
+                .orderByDesc(GroupDO::getUpdateTime);
         List<GroupDO> groupDOS = baseMapper.selectList(queryWrapper);
         return BeanUtil.copyToList(groupDOS, GroupRespDTO.class);
     }

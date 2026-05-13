@@ -11,8 +11,4 @@ public class GroupReqDTO
      */
     @NotBlank(message = "分组名称不能为空")
     private String name;
-    /**
-     * 创建的分组用户名
-     */
-    private String username;
 }
