@@ -14,6 +14,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,6 +43,13 @@ public class GlobalExceptionHandler {
     public Result<Void> reqJsonExceptionHandler(HttpServletRequest request, HttpMessageNotReadableException ex) {
         log.error("[{}] {} [ex] {}", request.getMethod(), getUrl(request), ex.toString());
         return Results.failure(BaseErrorCode.CLIENT_PARAM_FORMAT_ERROR.code(), BaseErrorCode.CLIENT_PARAM_FORMAT_ERROR.message());
+    }
+
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Result<Void> reqMethodExceptionHandler(HttpServletRequest request, HttpRequestMethodNotSupportedException ex) {
+        log.error("[{}] {} [ex] {}", request.getMethod(), getUrl(request), ex.toString());
+        return Results.failure(BaseErrorCode.CLIENT_REQUEST_METHOD_ERROR.code(), BaseErrorCode.CLIENT_REQUEST_METHOD_ERROR.message());
     }
     /**
      * 拦截参数验证异常
