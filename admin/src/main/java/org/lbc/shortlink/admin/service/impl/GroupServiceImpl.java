@@ -3,9 +3,9 @@ package org.lbc.shortlink.admin.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.lbc.shortlink.admin.common.biz.user.UserContext;
 import org.lbc.shortlink.admin.common.convention.exception.ClientException;
@@ -26,9 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implements GroupService {
-    private final GroupMapper groupMapper;
 
     @Override
     public GroupRespDTO create(GroupReqDTO requestParam) {
@@ -58,17 +56,17 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public void modify(GroupModifyReqDTO requestParam) {
-        GroupDO group = groupMapper.selectOne(Wrappers.<GroupDO>lambdaQuery().eq(GroupDO::getGid, requestParam.getGid()));
+        GroupDO group = baseMapper.selectOne(Wrappers.lambdaQuery(GroupDO.class).eq(GroupDO::getGid, requestParam.getGid()));
         if (group == null) {
             throw new ClientException("分组不存在");
         }
-        Wrapper<GroupDO> updateWrapper = Wrappers.<GroupDO>lambdaUpdate()
+        Wrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
                 .eq(GroupDO::getUsername, UserContext.getUsername())
                 .eq(GroupDO::getDelFlag, 0)
                 .eq(GroupDO::getGid, requestParam.getGid());
         GroupDO newGroup = new GroupDO();
         newGroup.setName(requestParam.getName());
-        int num = groupMapper.update(newGroup, updateWrapper);
+        int num = baseMapper.update(newGroup, updateWrapper);
         if (num != 1) {
             throw new ServiceException("修改失败，请稍后重试");
         }
@@ -76,14 +74,19 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public void delete(String gid) {
-        LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.<GroupDO>lambdaQuery()
+        LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getUsername, UserContext.getUsername())
                 .eq(GroupDO::getGid, gid);
-        GroupDO group = groupMapper.selectOne(queryWrapper);
+        GroupDO group = baseMapper.selectOne(queryWrapper);
         if (group == null) {
             throw new ClientException("分组不存在");
         }
-        int num = groupMapper.delete(queryWrapper);
+        LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
+                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getGid, gid);
+        GroupDO delGroup = new GroupDO();
+        delGroup.setDelFlag(1);
+        int num = baseMapper.update(delGroup, updateWrapper);
         if (num != 1) {
             throw new ServiceException("删除失败，请稍后重试");
         }
