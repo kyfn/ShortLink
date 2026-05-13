@@ -6,6 +6,7 @@ import java.util.Optional;
 
 /**
  * 用户上下文
+ * 使用阿里 TTL 共享用户上下文
  */
 public final class UserContext {
 

@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * 用户信息传输过滤器
+ * 封装用户上下文信息
  */
 @RequiredArgsConstructor
 public class UserTransmitFilter implements Filter {
