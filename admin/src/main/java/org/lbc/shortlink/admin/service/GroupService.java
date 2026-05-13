@@ -2,6 +2,7 @@ package org.lbc.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.lbc.shortlink.admin.dao.entity.GroupDO;
+import org.lbc.shortlink.admin.dto.req.GroupModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.GroupReqDTO;
 import org.lbc.shortlink.admin.dto.resp.GroupRespDTO;
 
@@ -24,4 +25,16 @@ public interface GroupService extends IService<GroupDO> {
      * @return 分组数据集合
      */
     List<GroupRespDTO> getAll();
+
+    /**
+     * 修改分组名称
+     * @param requestParam {gid 修改分组的 id name 新分组名称}
+     */
+    void modify(GroupModifyReqDTO requestParam);
+
+    /**
+     * 删除分组
+     * @param gid 分组 id
+     */
+    void delete(String gid);
 }

@@ -6,6 +6,7 @@ public enum BaseErrorCode implements IErrorCode {
     CLIENT_ERROR("A0000001", "用户端错误"),
     CLIENT_PARAM_ERROR("A0000002", "参数错误"),
     CLIENT_PARAM_FORMAT_ERROR("A0000003", "参数格式错误"),
+    CLIENT_REQUEST_METHOD_ERROR("A0000004", "请求方式错误"),
     NAME_NULL("A0000051", "用户名不能为空"),
     PASSWORD_NULL("A0000052", "密码不能为空"),
     EMAIL_NULL("A0000053", "邮箱不能为空"),

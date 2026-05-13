@@ -15,7 +15,8 @@ public final class Results {
      */
     public static Result<Void> success() {
         return new Result<Void>()
-                .setCode(Result.SUCCESS_CODE);
+                .setCode(Result.SUCCESS_CODE)
+                .setMessage("Success");
     }
 
     public static Result<Void> success(String message) {

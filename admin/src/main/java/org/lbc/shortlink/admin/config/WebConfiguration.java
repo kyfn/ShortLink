@@ -12,10 +12,15 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     private final HeaderCheckInterceptor headerCheckInterceptor;
 
+    private final String[] excludePaths = {
+            "/api/slink/v1/user/login",
+            "/api/slink/v1/user/register",
+    };
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(headerCheckInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/slink/v1/user/login", "/api/slink/v1/user/register");
+                .excludePathPatterns(excludePaths);
     }
 }
