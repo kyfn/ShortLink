@@ -6,6 +6,7 @@ import org.lbc.shortlink.admin.common.convention.result.Result;
 import org.lbc.shortlink.admin.common.convention.result.Results;
 import org.lbc.shortlink.admin.dto.req.GroupModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.GroupReqDTO;
+import org.lbc.shortlink.admin.dto.req.GroupSortReqDTO;
 import org.lbc.shortlink.admin.dto.resp.GroupRespDTO;
 import org.lbc.shortlink.admin.service.GroupService;
 import org.springframework.validation.annotation.Validated;
@@ -50,4 +51,14 @@ public class GroupController {
     public Result<List<GroupRespDTO>> getAll() {
         return Results.success(groupService.getAll());
     }
+    /**
+     * 新增分组
+     * @param requestParam 新增分组参数
+     */
+    @PostMapping("/api/slink/v1/group/sort")
+    public Result<Void> sort(@RequestBody List<GroupSortReqDTO> requestParam) {
+        groupService.sortGroup(requestParam);
+        return Results.success();
+    }
+
 }

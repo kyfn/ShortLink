@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.lbc.shortlink.admin.dao.entity.GroupDO;
 import org.lbc.shortlink.admin.dto.req.GroupModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.GroupReqDTO;
+import org.lbc.shortlink.admin.dto.req.GroupSortReqDTO;
 import org.lbc.shortlink.admin.dto.resp.GroupRespDTO;
 
 import java.util.List;
@@ -37,4 +38,10 @@ public interface GroupService extends IService<GroupDO> {
      * @param gid 分组 id
      */
     void delete(String gid);
+
+    /**
+     * 分组排序
+     * @param requestParam 分组排序列表[{gid, sortOrder}...]
+     */
+    void sortGroup(List<GroupSortReqDTO> requestParam);
 }

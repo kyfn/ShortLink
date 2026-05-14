@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.lbc.shortlink.admin.dao.mapper.GroupMapper">  <!-- 必须和 Mapper 接口全限定名一致 -->
+
+    <update id="batchUpdateSortOrder">
+        UPDATE `t_group`
+        SET sort_order = CASE gid
+        <foreach collection="list" item="item">
+            WHEN #{item.gid} THEN #{item.sortOrder}
+        </foreach>
+        END
+        WHERE gid IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.gid}
+        </foreach>
+        AND username = #{username}
+    </update>
+
+</mapper>

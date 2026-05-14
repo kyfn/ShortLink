@@ -14,12 +14,16 @@ import org.lbc.shortlink.admin.dao.entity.GroupDO;
 import org.lbc.shortlink.admin.dao.mapper.GroupMapper;
 import org.lbc.shortlink.admin.dto.req.GroupModifyReqDTO;
 import org.lbc.shortlink.admin.dto.req.GroupReqDTO;
+import org.lbc.shortlink.admin.dto.req.GroupSortReqDTO;
 import org.lbc.shortlink.admin.dto.resp.GroupRespDTO;
 import org.lbc.shortlink.admin.service.GroupService;
 import org.lbc.shortlink.admin.utils.RandomGenerator;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 短链接分组接口实现层
@@ -76,19 +80,47 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     public void delete(String gid) {
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getUsername, UserContext.getUsername())
-                .eq(GroupDO::getGid, gid);
+                .eq(GroupDO::getGid, gid)
+                .eq(GroupDO::getDelFlag, 0);
         GroupDO group = baseMapper.selectOne(queryWrapper);
         if (group == null) {
             throw new ClientException("分组不存在");
         }
         LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
                 .eq(GroupDO::getUsername, UserContext.getUsername())
-                .eq(GroupDO::getGid, gid);
+                .eq(GroupDO::getGid, gid)
+                .eq(GroupDO::getDelFlag, 0);
         GroupDO delGroup = new GroupDO();
         delGroup.setDelFlag(1);
         int num = baseMapper.update(delGroup, updateWrapper);
         if (num != 1) {
             throw new ServiceException("删除失败，请稍后重试");
         }
+    }
+
+    @Override
+    public void sortGroup(List<GroupSortReqDTO> requestParam) {
+        if (requestParam == null || requestParam.isEmpty()) {
+            throw new ClientException("排序分组不能为空");
+        }
+        String username = UserContext.getUsername();
+        List<String> gids = requestParam.stream()
+                .map(GroupSortReqDTO::getGid)
+                .collect(Collectors.toList());
+
+        Set<String> gidSet = new HashSet<>(gids);
+        if (gidSet.size() != gids.size()) {
+            throw new ClientException("存在重复的分组ID");
+        }
+
+        Long count = lambdaQuery()
+                .in(GroupDO::getGid, gidSet)
+                .eq(GroupDO::getUsername, username)
+                .count();
+
+        if (count != gidSet.size()) {
+            throw new ClientException("存在无权操作或不存在的数据");
+        }
+        baseMapper.batchUpdateSortOrder(requestParam, UserContext.getUsername());
     }
 }
