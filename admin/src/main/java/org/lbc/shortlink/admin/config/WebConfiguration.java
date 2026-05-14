@@ -13,8 +13,8 @@ public class WebConfiguration implements WebMvcConfigurer {
     private final HeaderCheckInterceptor headerCheckInterceptor;
 
     private final String[] excludePaths = {
-            "/api/slink/v1/user/login",
-            "/api/slink/v1/user/register",
+            "/api/slink/v1/admin/user/login",
+            "/api/slink/v1/admin/user/register",
     };
 
     @Override

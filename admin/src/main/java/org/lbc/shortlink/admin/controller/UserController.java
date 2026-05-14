@@ -28,7 +28,7 @@ public class UserController {
     /**
      * 根据用户名查询用户信息
      */
-    @GetMapping("/api/slink/v1/user/{username}")
+    @GetMapping("/api/slink/v1/admin/user/{username}")
     public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
         UserRespDTO user = userService.getUserByUsername(username);
         return Results.success(user);
@@ -37,7 +37,7 @@ public class UserController {
     /**
      * 根据用户名查询无脱敏用户信息
      */
-    @GetMapping("/api/slink/v1/actual/user/{username}")
+    @GetMapping("/api/slink/v1/admin/actual/user/{username}")
     public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
         UserActualRespDTO user = userService.getActualUserByUsername(username);
         return Results.success(user);
@@ -48,7 +48,7 @@ public class UserController {
      * @param username 用户名
      * @return 存在返回报错信息，不存在返回可用信息
      */
-    @GetMapping("/api/slink/v1/user/exists")
+    @GetMapping("/api/slink/v1/admin/user/exists")
     public Result<Void> checkUsernameExists(@RequestParam String username) {
         userService.checkUsernameExists(username);
         return Results.success("用户名可用");
@@ -59,7 +59,7 @@ public class UserController {
      * @param requestParam 注册参数
      * @return 任意
      */
-    @PostMapping("/api/slink/v1/user/register")
+    @PostMapping("/api/slink/v1/admin/user/register")
     public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
         userService.register(requestParam);
         return Results.success();
@@ -70,7 +70,7 @@ public class UserController {
      * @param requestParam 修改参数
      * @return 任意
      */
-    @PutMapping("/api/slink/v1/user/password")
+    @PutMapping("/api/slink/v1/admin/user/password")
     public Result<Void> modifyPassword(@RequestBody @Valid UserPasswordModifyReqDTO requestParam) {
         userService.modifyPassword(requestParam);
         return Results.success();
@@ -81,7 +81,7 @@ public class UserController {
      * @param requestParam 修改参数
      * @return 任意
      */
-    @PutMapping("/api/slink/v1/user/phone")
+    @PutMapping("/api/slink/v1/admin/user/phone")
     public Result<Void> modifyPhone(@RequestBody UserPhoneModifyReqDTO requestParam) {
         // TODO 参数注解校验
         userService.modifyPhone(requestParam);
@@ -93,7 +93,7 @@ public class UserController {
      * @param requestParam 登录参数
      * @return token 数据
      */
-    @PostMapping("/api/slink/v1/user/login")
+    @PostMapping("/api/slink/v1/admin/user/login")
     public Result<UserLoginRespDTO> login(@RequestBody @Valid UserLoginReqDTO requestParam) {
         UserLoginRespDTO loginRes = userService.login(requestParam);
         return Results.success(loginRes);
@@ -105,12 +105,12 @@ public class UserController {
      * @param  token 用户token
      * @return true 登录 false 未登录
      */
-    @GetMapping("/api/slink/v1/user/check-login")
+    @GetMapping("/api/slink/v1/admin/user/check-login")
     public Result<Boolean> checkLogin(@RequestHeader String token, @RequestHeader String username) {
         return Results.success(userService.checkLogin(username, token));
     }
 
-    @DeleteMapping("/api/slink/v1/user/loginout")
+    @DeleteMapping("/api/slink/v1/admin/user/loginout")
     public Result<Void> logout(@RequestParam String username, @RequestParam String token) {
         userService.logout(username, token);
         return Results.success();
