@@ -9,6 +9,7 @@ import org.lbc.shortlink.project.common.convention.exception.ServiceException;
 import org.lbc.shortlink.project.dao.entity.ShortLinkDO;
 import org.lbc.shortlink.project.dao.mapper.ShortLinkMapper;
 import org.lbc.shortlink.project.dto.req.ShortLinkReqDTO;
+import org.lbc.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.lbc.shortlink.project.dto.resp.ShortLinkRespDTO;
 import org.lbc.shortlink.project.service.ShortLinkService;
 import org.lbc.shortlink.project.utils.slink.DomainSegmentCodeGenerator;
@@ -23,9 +24,10 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final DomainSegmentCodeGenerator domainSegmentCodeGenerator;
 
     @Override
-    public void createLink(ShortLinkReqDTO requestParam) {
+    public ShortLinkCreateRespDTO createLink(ShortLinkReqDTO requestParam) {
         String domain = requestParam.getDomain();
         String uri= domainSegmentCodeGenerator.nextCode(domain);
+        String fsUrl = domain + "/" + uri;
         ShortLinkDO shortLink = ShortLinkDO.builder()
                 .gid(requestParam.getGid())
                 .vaildDateType(requestParam.getVaildDateType())
@@ -35,13 +37,18 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .originUrl(requestParam.getOriginUrl())
                 .statusEnable(1)
                 .shortUri(uri)
-                .fullShortUrl(domain+"/"+uri)
+                .fullShortUrl(fsUrl)
                 .remark(requestParam.getRemark())
                 .build();
         int num = baseMapper.insert(shortLink);
         if (num != 1) {
             throw new ServiceException("短链接创建失败");
         }
+        return ShortLinkCreateRespDTO.builder()
+                .gid(requestParam.getGid())
+                .originUrl(requestParam.getOriginUrl())
+                .fullShortUrl(fsUrl)
+                .build();
     }
 
     @Override

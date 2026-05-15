@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.lbc.shortlink.project.common.convention.result.Result;
 import org.lbc.shortlink.project.common.convention.result.Results;
 import org.lbc.shortlink.project.dto.req.ShortLinkReqDTO;
+import org.lbc.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.lbc.shortlink.project.dto.resp.ShortLinkRespDTO;
 import org.lbc.shortlink.project.service.ShortLinkService;
 import org.springframework.validation.annotation.Validated;
@@ -23,9 +24,8 @@ public class ShortLinkController {
      * @param requestParam 创建参数对象
      */
     @PostMapping("/api/slink/v1/project/link")
-    public Result<Void> createLink(@RequestBody @Valid ShortLinkReqDTO requestParam) {
-        shortLinkService.createLink(requestParam);
-        return Results.success();
+    public Result<ShortLinkCreateRespDTO> createLink(@RequestBody @Valid ShortLinkReqDTO requestParam) {
+        return Results.success(shortLinkService.createLink(requestParam));
     }
 
     /**
