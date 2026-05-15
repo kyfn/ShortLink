@@ -1,6 +1,6 @@
 package org.lbc.shortlink.project.dto;
 
 public interface ValidDate {
-    Integer getVaildDateType();
+    Integer getValidDateType();
     Long getValidDate();
 }

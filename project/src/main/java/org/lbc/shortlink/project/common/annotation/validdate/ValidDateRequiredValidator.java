@@ -12,12 +12,12 @@ public class ValidDateRequiredValidator implements ConstraintValidator<ValidDate
     @Override
     public boolean isValid(ValidDate dto, ConstraintValidatorContext context) {
         // 类型为空，交给 @NotNull 处理
-        if (dto.getVaildDateType() == null) {
+        if (dto.getValidDateType() == null) {
             return true;
         }
 
         // 0-永久有效，validDate 必须为 null
-        if (dto.getVaildDateType() == 0) {
+        if (dto.getValidDateType() == 0) {
             if (dto.getValidDate() != null) {
                 // 错误定位到 validDate 字段
                 context.disableDefaultConstraintViolation();
@@ -30,7 +30,7 @@ public class ValidDateRequiredValidator implements ConstraintValidator<ValidDate
         }
 
         // 1-自定义，validDate 必须不为 null
-        if (dto.getVaildDateType() == 1) {
+        if (dto.getValidDateType() == 1) {
             if (dto.getValidDate() == null) {
                 // 错误定位到 validDate 字段
                 context.disableDefaultConstraintViolation();

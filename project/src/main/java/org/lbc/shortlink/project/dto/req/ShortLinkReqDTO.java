@@ -25,7 +25,7 @@ public class ShortLinkReqDTO implements ValidDate {
     private Integer createdType;
     @NotNull(message = "有效期类型不能为空")
     //有效期类型：0 永久有效 1 自定义
-    private Integer vaildDateType;
+    private Integer validDateType;
     //有效期时间戳(秒)
     private Long validDate;
     //描述

@@ -29,9 +29,9 @@ public class ShortLinkDO extends BaseDO {
     //创建类型：0 接口创建，1 控制台创建
     private Integer createdType;
     //有效期类型：0 永久有效 1 自定义
-    private Integer vaildDateType;
+    private Integer validDateType;
     //有效期时间戳(秒)
-    private Long vaildDate;
+    private Long validDate;
     //描述
     private String remark;
 }

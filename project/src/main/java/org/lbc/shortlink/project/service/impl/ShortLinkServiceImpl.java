@@ -28,18 +28,10 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         String domain = requestParam.getDomain();
         String uri= domainSegmentCodeGenerator.nextCode(domain);
         String fsUrl = domain + "/" + uri;
-        ShortLinkDO shortLink = ShortLinkDO.builder()
-                .gid(requestParam.getGid())
-                .vaildDateType(requestParam.getVaildDateType())
-                .vaildDate(requestParam.getValidDate())
-                .domain(domain)
-                .createdType(requestParam.getCreatedType())
-                .originUrl(requestParam.getOriginUrl())
-                .statusEnable(1)
-                .shortUri(uri)
-                .fullShortUrl(fsUrl)
-                .remark(requestParam.getRemark())
-                .build();
+        ShortLinkDO shortLink = BeanUtil.toBean(requestParam, ShortLinkDO.class);
+        shortLink.setShortUri(uri);
+        shortLink.setFullShortUrl(fsUrl);
+        shortLink.setStatusEnable(1);
         int num = baseMapper.insert(shortLink);
         if (num != 1) {
             throw new ServiceException("短链接创建失败");
