@@ -23,7 +23,7 @@ public class ShortLinkController {
      * 创建新的短链接
      * @param requestParam 创建参数对象
      */
-    @PostMapping("/api/slink/v1/project/link")
+    @PostMapping("/api/slink/v1/link")
     public Result<ShortLinkCreateRespDTO> createLink(@RequestBody @Valid ShortLinkReqDTO requestParam) {
         return Results.success(shortLinkService.createLink(requestParam));
     }
@@ -33,7 +33,7 @@ public class ShortLinkController {
      * @param gid 分组 id
      * @return 短链接集合
      */
-    @GetMapping("/api/slink/v1/project/link/{gid}")
+    @GetMapping("/api/slink/v1/{gid}/links")
     public Result<List<ShortLinkRespDTO>> getLinkByGid(@PathVariable("gid") String gid) {
         return Results.success(shortLinkService.getLinkByGid(gid));
     }

@@ -1,6 +1,7 @@
 package org.lbc.shortlink.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,11 +28,19 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     public ShortLinkCreateRespDTO createLink(ShortLinkReqDTO requestParam) {
         String domain = requestParam.getDomain();
         String uri= domainSegmentCodeGenerator.nextCode(domain);
-        String fsUrl = domain + "/" + uri;
-        ShortLinkDO shortLink = BeanUtil.toBean(requestParam, ShortLinkDO.class);
-        shortLink.setShortUri(uri);
-        shortLink.setFullShortUrl(fsUrl);
-        shortLink.setStatusEnable(1);
+        String fsUrl = StrUtil.concat(true,domain, "/", uri);
+        ShortLinkDO shortLink = ShortLinkDO.builder()
+                .gid(requestParam.getGid())
+                .validDateType(requestParam.getValidDateType())
+                .validDate(requestParam.getValidDate())
+                .domain(domain)
+                .createdType(requestParam.getCreatedType())
+                .originUrl(requestParam.getOriginUrl())
+                .statusEnable(1)
+                .shortUri(uri)
+                .fullShortUrl(fsUrl)
+                .remark(requestParam.getRemark())
+                .build();
         int num = baseMapper.insert(shortLink);
         if (num != 1) {
             throw new ServiceException("短链接创建失败");
