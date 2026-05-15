@@ -1,14 +1,11 @@
 package org.lbc.shortlink.project.dto.req;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.lbc.shortlink.project.common.annotation.validdate.ValidDateRequired;
 import org.lbc.shortlink.project.dto.ValidDate;
-
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,9 +26,8 @@ public class ShortLinkReqDTO implements ValidDate {
     @NotNull(message = "有效期类型不能为空")
     //有效期类型：0 永久有效 1 自定义
     private Integer vaildDateType;
-    //有效期
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime validDate;
+    //有效期时间戳(秒)
+    private Long validDate;
     //描述
-    private String describe;
+    private String remark;
 }

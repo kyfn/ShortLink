@@ -1,11 +1,11 @@
 package org.lbc.shortlink.project.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import org.lbc.shortlink.project.common.database.BaseDO;
 
-import java.util.Date;
-
 @Data
+@TableName("t_link")
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,8 +30,8 @@ public class ShortLinkDO extends BaseDO {
     private Integer createdType;
     //有效期类型：0 永久有效 1 自定义
     private Integer vaildDateType;
-    //有效期
-    private Date vaildDate;
+    //有效期时间戳(秒)
+    private Long vaildDate;
     //描述
-    private String describe;
+    private String remark;
 }
