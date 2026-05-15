@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.lbc.shortlink.project.dao.mapper.LinkSequenceMapper">
+
+    <!-- 初始化 domain 序列；已存在时不修改 current_value -->
+    <insert id="init">
+        INSERT IGNORE INTO t_link_sequence (
+        domain, current_value, create_time, update_time
+        )
+        VALUES (
+        #{domain}, 0, #{now}, #{now}
+        )
+    </insert>
+
+    <!--
+      MariaDB 支持 LAST_INSERT_ID(expr)。
+      假设 current_value=1000，step=1000，
+      执行后 current_value=2000，本次号段是 1001~2000。
+    -->
+    <update id="allocateSegment">
+        UPDATE t_link_sequence
+        SET current_value = LAST_INSERT_ID(current_value + #{step}),
+        update_time = #{now}
+        WHERE domain = #{domain}
+    </update>
+
+    <!-- 获取当前连接里的 LAST_INSERT_ID() -->
+    <select id="getLastInsertId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+</mapper>
