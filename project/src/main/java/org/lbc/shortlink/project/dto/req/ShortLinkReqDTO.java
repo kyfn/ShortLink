@@ -20,6 +20,8 @@ public class ShortLinkReqDTO implements ValidDate {
     //原始链接
     @NotBlank(message = "原始链接不能为空")
     private String originUrl;
+    //网站图标
+    private String favicon;
     @NotNull(message = "创建类型不能为空")
     //创建类型：0 接口创建，1 控制台创建
     private Integer createdType;

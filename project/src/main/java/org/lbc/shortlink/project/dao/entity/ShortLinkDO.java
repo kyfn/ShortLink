@@ -22,6 +22,8 @@ public class ShortLinkDO extends BaseDO {
     private String fullShortUrl;
     //原始链接
     private String originUrl;
+    //网站图标
+    private String favicon;
     //点击量
     private Integer clickNum;
     //启用标识： 0 未启用，1 启用
