@@ -9,6 +9,7 @@ public class LinkTableShardingTest {
             "  `full_short_url` varchar(256) DEFAULT NULL COMMENT '完整短链接',\n" +
             "  `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',\n" +
             "  `click_num` int(11) DEFAULT 0 COMMENT '点击量',\n" +
+            "  `favicon` varchar(256) DEFAULT NULL COMMENT '原始网站图标',\n" +
             "  `status_enable` tinyint(1) DEFAULT 0 COMMENT '启用标识： 0 未启用，1 启用',\n" +
             "  `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型：0 接口创建，1 控制台创建',\n" +
             "  `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型：0 永久有效 1 自定义',\n" +
