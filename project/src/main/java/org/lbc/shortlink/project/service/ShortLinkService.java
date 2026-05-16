@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 import org.lbc.shortlink.project.dao.entity.ShortLinkDO;
 import org.lbc.shortlink.project.dto.req.ShortLinkReqDTO;
+import org.lbc.shortlink.project.dto.resp.PageDTO;
 import org.lbc.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.lbc.shortlink.project.dto.resp.ShortLinkRespDTO;
-
-import java.util.List;
 
 public interface ShortLinkService extends IService<ShortLinkDO> {
 
@@ -22,5 +21,5 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @param gid 分组 id
      * @return 短链接集合
      */
-    List<ShortLinkRespDTO> getLinkByGid(String gid);
+    PageDTO<ShortLinkRespDTO> getLinkByGid(String gid, Integer pageNum, Integer pageSize);
 }

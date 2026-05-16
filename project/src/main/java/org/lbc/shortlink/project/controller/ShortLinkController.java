@@ -1,17 +1,17 @@
 package org.lbc.shortlink.project.controller;
 
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.lbc.shortlink.project.common.convention.result.Result;
 import org.lbc.shortlink.project.common.convention.result.Results;
 import org.lbc.shortlink.project.dto.req.ShortLinkReqDTO;
+import org.lbc.shortlink.project.dto.resp.PageDTO;
 import org.lbc.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.lbc.shortlink.project.dto.resp.ShortLinkRespDTO;
 import org.lbc.shortlink.project.service.ShortLinkService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +34,11 @@ public class ShortLinkController {
      * @return 短链接集合
      */
     @GetMapping("/api/slink/v1/{gid}/links")
-    public Result<List<ShortLinkRespDTO>> getLinkByGid(@PathVariable("gid") String gid) {
-        return Results.success(shortLinkService.getLinkByGid(gid));
+    public Result<PageDTO<ShortLinkRespDTO>> getLinkByGid(
+            @PathVariable("gid") String gid,
+            @PathParam("pageNum") Integer pageNum,
+            @PathParam("pageSize") Integer pageSize
+    ) {
+        return Results.success(shortLinkService.getLinkByGid(gid, pageNum, pageSize));
     }
 }
