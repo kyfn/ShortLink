@@ -1,6 +1,7 @@
 package org.lbc.shortlink.project.dto.resp;
 
 import lombok.Data;
+import org.lbc.shortlink.project.common.serialize.SecondTimestampFormat;
 
 @Data
 public class ShortLinkRespDTO {
@@ -25,6 +26,7 @@ public class ShortLinkRespDTO {
     //有效期类型：0 永久有效 1 自定义
     private Integer validDateType;
     //有效期时间戳(秒)
+    @SecondTimestampFormat
     private Long validDate;
     //描述
     private String remark;

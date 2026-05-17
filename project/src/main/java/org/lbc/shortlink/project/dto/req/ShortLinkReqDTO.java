@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.lbc.shortlink.project.common.annotation.validdate.ValidDateRequired;
+import org.lbc.shortlink.project.common.validate.ValidDateRequired;
 import org.lbc.shortlink.project.dto.ValidDate;
 
 @Data

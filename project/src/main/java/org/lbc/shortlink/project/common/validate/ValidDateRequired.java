@@ -1,4 +1,4 @@
-package org.lbc.shortlink.project.common.annotation.validdate;
+package org.lbc.shortlink.project.common.validate;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
