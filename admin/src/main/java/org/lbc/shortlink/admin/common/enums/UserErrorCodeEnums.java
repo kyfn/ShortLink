@@ -8,7 +8,8 @@ public enum UserErrorCodeEnums implements IErrorCode {
     USER_SAVE_ERROR("A0000100", "用户注册失败"),
     USER_LOGIN_ERROR("A0000200", "用户登录失败"),
     USER_NULL("A0000301", "用户不存在"),
-    USER_PASSWORD_ERROR("A0000302", "用户密码错误");
+    USER_PASSWORD_ERROR("A0000302", "用户密码错误"),
+    USER_TOKEN_ERROR("A0000401", "未登录或 Token 为空");
 
     private final String code;
     private final String message;
