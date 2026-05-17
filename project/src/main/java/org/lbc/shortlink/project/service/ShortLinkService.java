@@ -21,5 +21,5 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @param gid 分组 id
      * @return 短链接集合
      */
-    PageDTO<ShortLinkRespDTO> getLinkByGid(String gid, Integer pageNum, Integer pageSize);
+    PageDTO<ShortLinkRespDTO> getLinksByGid(String gid, Integer pageNum, Integer pageSize);
 }

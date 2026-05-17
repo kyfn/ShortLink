@@ -34,11 +34,11 @@ public class ShortLinkController {
      * @return 短链接集合
      */
     @GetMapping("/api/slink/v1/{gid}/links")
-    public Result<PageDTO<ShortLinkRespDTO>> getLinkByGid(
+    public Result<PageDTO<ShortLinkRespDTO>> getLinksByGid(
             @PathVariable("gid") String gid,
             @PathParam("pageNum") Integer pageNum,
             @PathParam("pageSize") Integer pageSize
     ) {
-        return Results.success(shortLinkService.getLinkByGid(gid, pageNum, pageSize));
+        return Results.success(shortLinkService.getLinksByGid(gid, pageNum, pageSize));
     }
 }

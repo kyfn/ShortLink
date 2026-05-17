@@ -54,7 +54,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     }
 
     @Override
-    public PageDTO<ShortLinkRespDTO> getLinkByGid(String gid, Integer pageNum, Integer pageSize) {
+    public PageDTO<ShortLinkRespDTO> getLinksByGid(String gid, Integer pageNum, Integer pageSize) {
         Page<ShortLinkDO> page = new Page<>(pageNum, pageSize); // 第1页，每页10条
 
         LambdaQueryWrapper<ShortLinkDO> qw = Wrappers.lambdaQuery(ShortLinkDO.class)
