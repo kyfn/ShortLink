@@ -1,16 +1,13 @@
-package org.lbc.shortlink.project.dto.req;
+package org.lbc.shortlink.admin.remote.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.lbc.shortlink.project.common.validate.ValidDateRequired;
-import org.lbc.shortlink.project.dto.ValidDate;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ValidDateRequired
-public class ShortLinkReqDTO implements ValidDate {
+public class ShortLinkReqDTO {
     //分组 id
     @NotBlank(message = "分组 id 不能为空")
     private String gid;

@@ -3,8 +3,10 @@ package org.lbc.shortlink.admin;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableFeignClients
 @MapperScan("org.lbc.shortlink.admin.dao.mapper")
 public class ShortLinkAdminApplication {
 

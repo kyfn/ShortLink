@@ -13,8 +13,10 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
     /**
      * 创建新的短链接
      * @param requestParam 创建参数对象
+     * @param source 创建短链接模块
+     * @return
      */
-    ShortLinkCreateRespDTO createLink(@Valid ShortLinkReqDTO requestParam);
+    ShortLinkCreateRespDTO createLink(@Valid ShortLinkReqDTO requestParam, String source);
 
     /**
      * 根据分组 id 查询当前分组下的短链接集合

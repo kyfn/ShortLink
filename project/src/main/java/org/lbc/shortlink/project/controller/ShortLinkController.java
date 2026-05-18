@@ -1,7 +1,9 @@
 package org.lbc.shortlink.project.controller;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import lombok.RequiredArgsConstructor;
 import org.lbc.shortlink.project.common.convention.result.Result;
 import org.lbc.shortlink.project.common.convention.result.Results;
@@ -24,8 +26,11 @@ public class ShortLinkController {
      * @param requestParam 创建参数对象
      */
     @PostMapping("/api/slink/v1/link")
-    public Result<ShortLinkCreateRespDTO> createLink(@RequestBody @Valid ShortLinkReqDTO requestParam) {
-        return Results.success(shortLinkService.createLink(requestParam));
+    public Result<ShortLinkCreateRespDTO> createLink(
+            @RequestHeader(value = "Module-Id", required = false, defaultValue = "project") String source,
+            @RequestBody @Valid ShortLinkReqDTO requestParam
+    ) {
+        return Results.success(shortLinkService.createLink(requestParam, source));
     }
 
     /**
@@ -35,9 +40,9 @@ public class ShortLinkController {
      */
     @GetMapping("/api/slink/v1/{gid}/links")
     public Result<PageDTO<ShortLinkRespDTO>> getLinksByGid(
-            @PathVariable("gid") String gid,
-            @PathParam("pageNum") Integer pageNum,
-            @PathParam("pageSize") Integer pageSize
+            @PathVariable("gid") @NotBlank String gid,
+            @RequestParam(value = "pageNum", required = false) @NotNull Integer pageNum,
+            @RequestParam(value = "pageSize", required = false) @NotNull Integer pageSize
     ) {
         return Results.success(shortLinkService.getLinksByGid(gid, pageNum, pageSize));
     }

@@ -3,6 +3,7 @@ package org.lbc.shortlink.project.common.convention.web;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.lbc.shortlink.project.common.convention.errorcode.BaseErrorCode;
@@ -38,6 +39,12 @@ public class GlobalExceptionHandler {
         log.error("[{}] {} [ex] {}", request.getMethod(), getUrl(request), ex.toString());
         return Results.failure(BaseErrorCode.CLIENT_PARAM_FORMAT_ERROR.code(), BaseErrorCode.CLIENT_PARAM_FORMAT_ERROR.message());
     }
+    // 捕获缺少必填参数
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Result<Void> handleMissingParam(ConstraintViolationException e) {
+        return Results.failure(BaseErrorCode.CLIENT_PARAM_ERROR.code(), BaseErrorCode.CLIENT_PARAM_ERROR.message());
+    }
+
 
     /**
      * 拦截请求方式错误

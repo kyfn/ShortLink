@@ -19,6 +19,8 @@ import org.lbc.shortlink.project.service.ShortLinkService;
 import org.lbc.shortlink.project.utils.slink.DomainSegmentCodeGenerator;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLinkDO> implements ShortLinkService {
@@ -26,7 +28,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final DomainSegmentCodeGenerator domainSegmentCodeGenerator;
 
     @Override
-    public ShortLinkCreateRespDTO createLink(ShortLinkReqDTO requestParam) {
+    public ShortLinkCreateRespDTO createLink(ShortLinkReqDTO requestParam, String source) {
         String domain = requestParam.getDomain();
         String uri = domainSegmentCodeGenerator.nextCode(domain);
         String fsUrl = StrUtil.concat(true, domain, "/", uri);
@@ -35,7 +37,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .validDateType(requestParam.getValidDateType())
                 .validDate(requestParam.getValidDate())
                 .domain(domain)
-                .createdType(requestParam.getCreatedType())
+                .createdType(Objects.equals(source, "admin") ? 1 : 0)
                 .originUrl(requestParam.getOriginUrl())
                 .statusEnable(1)
                 .shortUri(uri)
